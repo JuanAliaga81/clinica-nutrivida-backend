@@ -1,0 +1,64 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-UsuariosApplication<usuarios>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cl.nutrivida.usuarios.UsuariosApplication",
+      "projectName": "usuarios",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ServicioApplication<servicio>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cl.nutrivida.servicio.ServicioApplication",
+      "projectName": "servicio",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-BlogApplication<blog>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cl.nutrivida.blog.BlogApplication",
+      "projectName": "blog",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ContactoApplication<contacto>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cl.nutrivida.contacto.ContactoApplication",
+      "projectName": "contacto",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-GatewayApplication<gateway>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cl.nutrivida.gateway.GatewayApplication",
+      "projectName": "gateway",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-CitaApplication<cita>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "cl.nutrivida.cita.CitaApplication",
+      "projectName": "cita",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

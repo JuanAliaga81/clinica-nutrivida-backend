@@ -1,0 +1,8 @@
+CREATE TABLE blog (
+    id_blog BIGINT NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(150) NOT NULL,
+    descripcion TEXT NOT NULL,
+    imagen VARCHAR(500) NOT NULL,
+
+    PRIMARY KEY (id_blog)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
