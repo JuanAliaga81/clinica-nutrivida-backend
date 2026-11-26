@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.nutrivida.usuarios.dto.LoginRespuestaDTO;
@@ -21,6 +22,8 @@ import cl.nutrivida.usuarios.dto.RegistroUsuarioDTO;
 import cl.nutrivida.usuarios.model.Usuario;
 import cl.nutrivida.usuarios.service.TokenService;
 import cl.nutrivida.usuarios.service.UsuarioService;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -32,6 +35,9 @@ public class UsuarioController {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private JwtDecoder jwtDecoder;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listarUsuarios() {
@@ -70,6 +76,22 @@ public class UsuarioController {
                     .body("Correo o contraseña incorrectos.");
         }
         return ResponseEntity.ok(new LoginRespuestaDTO(tokenService.crearToken(usuario), usuario));
+    }
+
+    @PostMapping("/renovar")
+    public ResponseEntity<?> renovarToken(@RequestHeader(value = "Authorization", required = false) String autorizacion) {
+        if (autorizacion == null || !autorizacion.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Debes iniciar sesión para renovar el token.");
+        }
+        try {
+            Jwt tokenActual = jwtDecoder.decode(autorizacion.substring(7));
+            Number idUsuario = tokenActual.getClaim("idUsuario");
+            if (idUsuario == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            Usuario usuario = usuarioService.buscarPorId(idUsuario.longValue());
+            return ResponseEntity.ok(new LoginRespuestaDTO(tokenService.crearToken(usuario), usuario));
+        } catch (RuntimeException error) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("El token no es válido.");
+        }
     }
 
     @PostMapping

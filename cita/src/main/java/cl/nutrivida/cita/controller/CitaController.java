@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,29 @@ public class CitaController {
             return ResponseEntity.ok(citaService.insertar(cita));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/usuario/{idUsuario}")
+    public ResponseEntity<?> insertarCitaDeUsuario(@PathVariable Long idUsuario, @RequestBody Cita cita) {
+        if (cita.getIdUsuario() == null || !idUsuario.equals(cita.getIdUsuario())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("La cita debe pertenecer a la cuenta que inició sesión.");
+        }
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(citaService.insertar(cita));
+        } catch (IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+    }
+
+    @DeleteMapping("/usuario/{idUsuario}/{idCita}")
+    public ResponseEntity<?> eliminarCitaDeUsuario(@PathVariable Long idUsuario, @PathVariable Long idCita) {
+        try {
+            citaService.eliminarDeUsuario(idUsuario, idCita);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException error) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error.getMessage());
         }
     }
 

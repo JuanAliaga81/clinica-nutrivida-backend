@@ -49,6 +49,14 @@ public class CitaService {
         citaRepository.delete(buscarPorId(id));
     }
 
+    public void eliminarDeUsuario(Long idUsuario, Long idCita) {
+        Cita cita = buscarPorId(idCita);
+        if (!idUsuario.equals(cita.getIdUsuario())) {
+            throw new IllegalArgumentException("La cita no pertenece a esta cuenta.");
+        }
+        citaRepository.delete(cita);
+    }
+
     private void validarCita(Cita cita) {
         if (cita.getIdUsuario() == null || cita.getIdUsuario() <= 0) {
             throw new IllegalArgumentException("El ID de usuario debe ser válido.");

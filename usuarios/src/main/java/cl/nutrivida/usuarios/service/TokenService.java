@@ -1,7 +1,6 @@
 package cl.nutrivida.usuarios.service;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -27,7 +26,6 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("nutrivida-usuarios")
                 .issuedAt(ahora)
-                .expiresAt(ahora.plus(1, ChronoUnit.DAYS))
                 .subject(usuario.getCorreo())
                 .claim("idUsuario", usuario.getIdUsuario())
                 .claim("roles", List.of(usuario.getRol()))

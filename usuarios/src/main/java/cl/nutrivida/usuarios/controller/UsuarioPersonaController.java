@@ -33,6 +33,24 @@ public class UsuarioPersonaController {
         return ResponseEntity.ok(usuariosPersonas);
     }
 
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<UsuarioPersona>> listarPorUsuario(@PathVariable Long idUsuario) {
+        List<UsuarioPersona> vinculos = usuarioPersonaService.listarPorUsuario(idUsuario);
+        if (vinculos.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(vinculos);
+    }
+
+    @PostMapping("/usuario/{idUsuario}")
+    public ResponseEntity<?> crearPersonaVinculada(@PathVariable Long idUsuario,
+            @RequestBody UsuarioPersona usuarioPersona) {
+        try {
+            return ResponseEntity.status(201)
+                    .body(usuarioPersonaService.insertarPersonaVinculada(idUsuario, usuarioPersona));
+        } catch (IllegalArgumentException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+    }
+
     @GetMapping ("/{id}")
     public ResponseEntity<UsuarioPersona> buscarUsuarioPersonaPorId(@PathVariable Long id) {
         try {
